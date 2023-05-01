@@ -1,0 +1,124 @@
+{% load static %}
+<html>
+<head>
+    <title>House Data</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <style>
+        body {
+            background-image: url("C:/Users/HP/Desktop/myproject/img/home.jpg");
+            background-size: cover;
+            /* Add any other background properties you want */
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <button class="top-button">Search</button>
+        <button class="top-button">History</button>
+        <button class="top-button">Bookmarks</button>
+    </div>
+    
+    <div class="container">
+        <h1>Mon Location</h1>
+        
+        <table class="filter-table">
+            <tr>
+                <th>Gouvernorat</th>
+                <th>Ville</th>
+                <th>Type</th>
+                <th>Price (min)</th>
+                <th>Price (max)</th> <!-- Added Price (max) column -->
+                
+              <th><button class="filter-button" type="submit">Filter</button></th>
+            </tr>
+            <tr>
+                <td>
+                    <select name="gouvernorat" id="gouvernorat" i>
+                        <option value="">-- Select Gouvernorat --</option>
+                        <option value="Ariana">Ariana</option>
+                        <option value="Beja">Beja</option>
+                        <option value="Ben Arous">Ben Arous</option>
+                        <option value="Bizerte">Bizerte</option>
+                        <option value="Gabes">Gabes</option>
+                        <option value="Gafsa">Gafsa</option>
+                        <option value="Jendouba">Jendouba</option>
+                        <option value="Kairouan">Kairouan</option>
+                        <option value="Kasserine">Kasserine</option>
+                        <option value="Kebili">Kebili</option>
+                        <option value="Kef">Kef</option>
+                        <option value="Mahdia">Mahdia</option>
+                        <option value="Manouba">Manouba</option>
+                        <option value="Medenine">Medenine</option>
+                        <option value="Monastir">Monastir</option>
+                        <option value="Nabeul">Nabeul</option>
+                        <option value="Sfax">Sfax</option>
+                        <option value="Sidi Bouzid">Sidi Bouzid</option>
+                        <option value="Siliana">Siliana</option>
+                        <option value="Sousse">Sousse</option>
+                        <option value="Tataouine">Tataouine</option>
+                        <option value="Tozeur">Tozeur</option>
+                        <option value="Tunis">Tunis</option>
+                        <option value="Zaghouan">Zaghouan</option>
+
+                        <!-- Add options for Gouvernorat here -->
+                    </select>
+                </td>
+                <td>
+                    <select name="ville" id="ville">
+                        <option value="">-- Select Ville --</option>
+                        <!-- Add options for Ville here -->
+                    </select>
+                   
+                    
+                </td>
+                <td>
+                    <select name="type">
+                        <option value="">-- Select Type --</option>
+                        <option value="1 bedroom">1 bedroom</option>
+                        <option value="2 bedrooms">2 bedrooms</option>
+                        <option value="3 bedrooms">3 bedrooms</option>
+                        <option value="4 bedrooms">4 bedrooms</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="number" name="min-price" placeholder="Minimum Price">
+                </td>
+                <td>
+                    <input type="number" name="max-price" placeholder="Maximum Price">
+                </td> <!-- Added Maximum Price input field -->
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Location</th>
+                <th>Chambre</th>
+                <th>Price</th>
+                <th>Date Added</th>
+            </tr>
+            {% for house in page_obj %}
+            <tr>
+                <td>{{ house.title }}</td>
+                <td>{{ house.location }}</td>
+                <td>{{ house.chambre }}</td>
+                <td>{{ house.price }}</td>
+                <td>{{ house.date_added }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            <span class="current-page">{{ page_obj.number }}</span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Next</a>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
