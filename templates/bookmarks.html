@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>My Bookmarks</h1>
+    {% if houses %}
+        <ul>
+            {% for house in houses %}
+                <li>{{ house.title }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You haven't bookmarked any houses yet.</p>
+    {% endif %}
+{% endblock %}

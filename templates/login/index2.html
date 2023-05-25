@@ -1,0 +1,61 @@
+
+
+<!--<div class="w3-top">
+  <div class="w3-bar w3-white w3-wide w3-padding w3-card">
+    <a href="#home" class="w3-bar-item w3-button"><b>BR</b> Architects</a>
+
+    <div class="w3-right w3-hide-small">
+      <li><a href="/signin" class="w3-bar-item w3-button">Sign In</a></li>
+      <a href="#about" class="w3-bar-item w3-button">About</a>
+      <li><a href="/signup" class="w3-bar-item w3-button">Sign Up</a></li>
+    </div>
+  </div>
+</div>-->
+
+<style>
+
+  navbar-item {
+      display: flex;
+      justify-content: center;
+    }
+    
+  
+  .body{
+   
+    background-size: cover;
+    margin:0;
+    padding:0;
+    font-family:Arial;
+  }
+      
+</style>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+
+<script src="{% static 'index.js' %}"></script>
+<nav class="navbar navbar-expand-custom navbar-mainbg ml-auto justify-content-center" >
+  
+  
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto ml-auto justify-content-center">
+      
+      <li class="nav-item">
+        <a class="nav-link" href="/signin"><i class="fas fa-tachometer-alt"></i>Sign In</a>
+      </li>
+      <li class="">
+        <a class="nav-link" href="/signup"><i class="far fa-address-book"></i>Sign Up</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0);"><i class="far fa-clone"></i>About</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0);"><i class="far fa-copy"></i>Documents</a>
+      </li>
+      
+    </ul>
+    
+  </div>
+</nav>
+<!--<div class="image-container">
+  <img src="{% static 'images/image.jpg' %}" alt="Image">
+</div>-->

@@ -1,0 +1,348 @@
+{% load static %}
+{% load custom_tags %}
+<html>
+<head>
+    <title>House Data</title>
+    <link rel="stylesheet" href="{% static 'css2/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css2/main.css' %}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+   
+    <link rel="stylesheet" href="{%static 'assets2/css/style-starter.css'%}">
+    <style>
+       
+        form#sort-form {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        label[for="sort_by"] {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .select#sort_by {
+            margin-right: 10px;
+            padding: 5px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button#sort-button {
+            padding: 5px 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+        }
+        button#sort-button:hover {
+            background-color: #0069d9;
+            cursor: pointer;
+        }
+        .btn.btn-outline-primary {
+            display: inline-block;
+            padding: 0.5em 1em;
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            border: 2px solid #007bff;
+            color: #007bff;
+            background-color: transparent;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+          }
+          
+          .btn.btn-outline-primary:hover {
+            background-color: #007bff;
+            color: #fff;
+          }
+          
+          .btn.btn-outline-primary:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
+          }
+          
+          .btn.btn-outline-primary:active {
+            background-color: #007bff;
+            color: #fff;
+            border-color: #007bff;
+          }
+          
+          .btn.btn-outline-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+          }
+        #table {
+            width: 100%;
+        }  
+          
+    </style>
+    <style>
+        .top-bar {
+            background-color: #f2f2f2;
+            padding: 10px;
+          }
+          
+          .top-button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+          }
+          
+          .top-button a {
+            color: white;
+            text-decoration: none;
+          }
+          
+          .home-btn {
+            background-color: #007bff;
+          }
+          
+          .top-button:hover {
+            background-color: #45a049;
+          }
+          
+          .top-button:active {
+            background-color: #367c39;
+          }
+          
+    </style>
+</head>
+<body>
+   <form action="{% url 'my_model_list' %}" method="get"> 
+    <div class="top-bar">
+        <button class="top-button"><a href="/" class="home-btn">Home</a></button> 
+        <button class="top-button">Search</button>
+        <button class="top-button">History</button>
+        {% if request.user.is_authenticated %}
+         
+        {% endif %}
+
+    </div>
+    
+    <div class="container">
+        <h1>Ma Location</h1>
+        <form method="get" action="{% url 'home' %}">
+            <label for="sort_by">Sort by:</label>
+            <select id="sort_by" name="sort_by">
+              <option value="">-- sort by --</option>  
+              <option value="asc_price" {% if sort_by == "asc_price" %}selected{% endif %}>Price: Ascending</option>
+              <option value="desc_price" {% if sort_by == "desc_price" %}selected{% endif %}>Price: Descending</option>
+              <option value="recent" {% if sort_by == "recent" %}selected{% endif %}>Most Recent</option>
+              <option value="least_recent" {% if sort_by == "least_recent" %}selected{% endif %}>Least Recent</option>
+            </select>
+            <button type="submit">Sort</button>
+          </form>
+       <table class="filter-table">
+            <tr>
+                <th>Gouvernorat</th>
+                <th>Ville</th>
+                <th>Type</th>
+                <th>Price (min)</th>
+                <th>Price (max)</th> 
+                
+              <th><button class="filter-button" type="submit">Filter</button></th>
+            </tr>
+            
+            
+          
+            <tr>
+                <td>
+                    <select name="location" id="location">
+                        <option value="">-- Select Gouvernorat --</option>
+                        <option value="Ariana">Ariana</option>
+                        <option value="Beja">Beja</option>
+                        <option value="Ben Arous">Ben Arous</option>
+                        <option value="Bizerte">Bizerte</option>
+                        <option value="Gabes">Gabes</option>
+                        <option value="Gafsa">Gafsa</option>
+                        <option value="Jendouba">Jendouba</option>
+                        <option value="Kairouan">Kairouan</option>
+                        <option value="Kasserine">Kasserine</option>
+                        <option value="Kebili">Kebili</option>
+                        <option value="Kef">Kef</option>
+                        <option value="Mahdia">Mahdia</option>
+                        <option value="Manouba">Manouba</option>
+                        <option value="Medenine">Medenine</option>
+                        <option value="Monastir">Monastir</option>
+                        <option value="Nabeul">Nabeul</option>
+                        <option value="Sfax">Sfax</option>
+                        <option value="Sidi Bouzid">Sidi Bouzid</option>
+                        <option value="Siliana">Siliana</option>
+                        <option value="Sousse">Sousse</option>
+                        <option value="Tataouine">Tataouine</option>
+                        <option value="Tozeur">Tozeur</option>
+                        <option value="Tunis">Tunis</option>
+                        <option value="Zaghouan">Zaghouan</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="ville" id="ville">
+                        <option value="">-- Select Ville --</option>
+                       
+                    </select>
+                </td>
+                <td>
+                    <select name="chambre">
+                        <option value="">-- Select Type --</option>
+                        <option value="1 ">1 Chambre</option>
+                        <option value="2 ">2 Chambres</option>
+                        <option value="3 ">3 Chambres</option>
+                        <option value="4 ">4 Chambres</option>
+                    </select>
+                </td>
+                <td>
+                    <label for="min-price">Min Price:</label>
+	             	<input type="" name="min-price" id="min-price" value="{{ min_price }}">
+		
+                </td>
+                <td>
+                    <label for="max-price">Max Price:</label>
+		            <input type="" name="max-price" id="max-price" value="{{ max_price }}">
+                </td> 
+              
+            </tr>
+        </table>
+      
+  
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-1 col-md-10">
+                    <div class="panel">
+                        
+                        <div class="panel-body table-responsive">
+         
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Ville</th>
+                                            <th>Location</th>
+                                            <th>Chambre</th>
+                                            <th>Price</th>
+                                            <th>Contact</th>
+                                            <th>Date Added</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            {% for house in page_obj %}
+                                            <tr>
+                                                <td><a href="{{ house.website_url }}" style="color:white">{{ house.title }}</a></td>
+                                                
+                                                <td>{{ house.location|extract_words }}</td>
+                                                <td>{{ house.location|extract_word }}</td>
+                                                <td>{{ house.chambre }}</td>
+                                                <td>{{ house.price }}</td>
+                                                <td>{{ house.contact}}</td>
+                                                <td>{{ house.date_added }}</td>
+                                                <td><a href="#" class="btn btn-outline-primary">favorite</a></td>
+                                               
+                                            </tr>
+                                            {% endfor %}
+                                        </tr>
+                                       
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            
+                        
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col col-sm-6 col-xs-6"><br/></div>
+                    <div class="col-sm-6 col-xs-6">
+                        <div class="pagination">
+                            <span class="step-links">
+                                {% if page_obj.has_previous %}
+                                    <a href="?page=1{% if location %}&location={{ location }}{% endif %}{% if ville %}&ville={{ ville }}{% endif %}{% if chambre %}&chambre={{ chambre }}{% endif %}{% if min_price %}&min-price={{ min_price }}{% endif %}{% if max_price %}&max-price={{ max_price }}{% endif %}{% if sort_by %}&sort_by={{ sort_by }}{% endif %}">&laquo; first</a>
+                                    <a href="?page={{ page_obj.previous_page_number }}{% if location %}&location={{ location }}{% endif %}{% if ville %}&ville={{ ville }}{% endif %}{% if chambre %}&chambre={{ chambre }}{% endif %}{% if min_price %}&min-price={{ min_price }}{% endif %}{% if max_price %}&max-price={{ max_price }}{% endif %}{% if sort_by %}&sort_by={{ sort_by }}{% endif %}">previous</a>
+                                {% endif %}
+                    
+                                <span class="current-page">
+                                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                </span>
+                    
+                                {% if page_obj.has_next %}
+                                    <a href="?page={{ page_obj.next_page_number }}{% if location %}&location={{ location }}{% endif %}{% if ville %}&ville={{ ville }}{% endif %}{% if chambre %}&chambre={{ chambre }}{% endif %}{% if min_price %}&min-price={{ min_price }}{% endif %}{% if max_price %}&max-price={{ max_price }}{% endif %}{% if sort_by %}&sort_by={{ sort_by }}{% endif %}">next</a>
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         
+    </div>
+   </form>
+   <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var gouvernoratDropdown = document.getElementById('location');
+        var villeDropdown = document.getElementById('ville');
+
+        var delegations = {
+            "Tunis": ["Tunis Ville", "La Marsa", "Le Bardo", "Le Kram", "Carthage", "Sidi Bou Said","Jardin De Carthage","Les Berges Du Lac"],
+            "Ariana": ["Ariana Ville", "La Soukra", "Raoued", "Kalâat el-Andalous", "Sidi Thabet"],
+            "Ben Arous": ["Ben Arous Ville", "Radès", "Mornag", "Hammam Lif", "Ezzahra","Mégrine"],
+            "Beja": ["Beja Ville", "Medjez el-Bab", "Nefza", "Testour", "Teboursouk"],
+            "Bizerte": ["Bizerte Ville", "Menzel Bourguiba", "Mateur", "Ras Jebel", "Ghar El Melh"],
+            "Gabes": ["Gabes Ville", "El Hamma", "Matmata", "Mareth", "Menzel Habib"],
+            "Gafsa": ["Gafsa Ville", "Métlaoui", "Redeyef", "El Guettar", "Sidi Aïch"],
+            "Jendouba": ["Jendouba Ville", "Tabarka", "Aïn Draham", "Bou Salem", "Fernana"],
+            "Kairouan": ["Kairouan Ville", "Oueslatia", "Sbikha", "Haffouz", "Bou Hajla"],
+            "Kasserine": ["Kasserine Ville", "Sbeitla", "Fériana", "Thala", "Thélepte"],
+            "Kebili": ["Kebili Ville", "Douz", "Souk Lahad", "El Golâa", "Bechri Fatnassa"],
+            "Kef": ["Kef Ville", "Tajerouine", "Sakiet Sidi Youssef", "Nebeur", "Jerissa"],
+            "Mahdia": ["Mahdia Ville", "Hiboun", "Chebba", "El Jem", "Ouled Chamekh"],
+            "Manouba": ["Manouba Ville", "Mornaguia", "Douar Hicher", "El Batan", "Oued Ellil"],
+            "Medenine": ["Medenine Ville", "Ben Gardane", "Zarzis", "Djerba", "Midoun"],
+            "Monastir": ["Monastir Ville", "Moknine", "Ksibet el-Médiouni", "Sayada", "Bembla"],
+            "Nabeul": ["Nabeul Ville", "Hammamet", "Kelibia", "Menzel Temime", "Dar Chaabane"],
+            "Sfax": ["Sfax Ville", "Sakiet Ezzit", "Chihia", "El Hencha", "Gremda"],
+            "Sidi Bouzid": ["Sidi Bouzid Ville", "Mezzouna", "Regueb", "Menzel Bouzaiane"], 
+            
+        };
+
+        // Function to populate the Ville dropdown based on the selected Gouvernorat
+        function populateVilleDropdown() {
+            // Clear the previous options in the Ville dropdown
+            villeDropdown.innerHTML = '';
+
+            // Get the selected Gouvernorat
+            var selectedGouvernorat = gouvernoratDropdown.value;
+
+            // Retrieve the corresponding list of Villes from the delegations dictionary
+            var villes = delegations[selectedGouvernorat];
+
+            // Create and add new options to the Ville dropdown
+            var defaultOption = document.createElement('option');
+            defaultOption.text = '-- Select Ville --';
+            villeDropdown.add(defaultOption);
+
+            for (var i = 0; i < villes.length; i++) {
+                var option = document.createElement('option');
+                option.value = villes[i];
+                option.text = villes[i];
+                villeDropdown.add(option);
+            }
+        }
+
+        // Attach an event listener to the Gouvernorat dropdown to trigger the Ville dropdown population
+        gouvernoratDropdown.addEventListener('change', populateVilleDropdown);
+    });
+   </script> 
+</body>
+</html>
+
